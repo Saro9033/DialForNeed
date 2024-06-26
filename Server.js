@@ -14,7 +14,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const path = require('path')
 
-require('dotenv').config({ path: path.join(__dirname, './.env') })
+require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
 const corsOptions = {
@@ -48,20 +48,16 @@ console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist'), {
-        // Set headers to ensure correct MIME type for JavaScript files
-        setHeaders: (res, path) => {
+        setHeaders: (res, path, stat) => {
             if (path.endsWith('.js')) {
                 res.setHeader('Content-Type', 'application/javascript');
             }
-        },
+        }
     }));
-    
-    // Handle other routes or fallback to index.html for client-side routing
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../Frontend/dialforneed/dist/index.html'));
     });
 }
-
 
 app.use(errorMiddleware)
 
