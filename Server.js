@@ -47,17 +47,27 @@ app.use('/api/', task)
 console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist'), {
-        setHeaders: (res, path, stat) => {
-            if (path.endsWith('.js')) {
-                res.setHeader('Content-Type', 'application/javascript');
-            }
-        }
-    }));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../Frontend/dialforneed/dist/index.html'));
-    });
+    // // Serve static files from the frontend build directory
+    // app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist'), {
+    //     setHeaders: (res, path, stat) => {
+    //         if (path.endsWith('.js')) {
+    //             res.setHeader('Content-Type', 'application/javascript');
+    //         }
+    //     }
+    // }));
+
+    // // Serve index.html for all other routes
+    // app.get('*', (req, res) => {
+    //     res.sendFile(path.join(__dirname, '../Frontend/dialforneed/dist/index.html'));
+    // });
+
+    app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist')))
+    // ++
+    app.get(/^(?!\/api).\*/, (req, res) => {
+        res.sendFile(path.join(__dirname, './Frontend/dialforneed/dist', 'index.html'))
+    })
 }
+
 
 app.use(errorMiddleware)
 
