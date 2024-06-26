@@ -5,7 +5,7 @@ const { newOrder, getSingleOrder, myOrders, getAllOrders , updateOrder, deleteOr
 
 router.route('/order/new').post(isAuthenticatedUser , newOrder)
 router.route('/order/:id').get(isAuthenticatedUser , getSingleOrder)
-router.route('/myorders').get(isAuthenticatedUser , myOrders)
+router.route('/myorders').get(myOrders)
 
 //delete particular orderItem
 router.route('/orderitem/:id').delete(isAuthenticatedUser,deleteOrderItem)

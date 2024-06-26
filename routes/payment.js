@@ -5,7 +5,7 @@ const { processPayment, sendApiKey } = require('../controllers/paymentController
 
 
 router.route('/payment/process').post(isAuthenticatedUser, processPayment)
-router.route('/RazorAPI').get(isAuthenticatedUser, sendApiKey)
+router.route('/RazorAPI').get(sendApiKey)
 
 
 module.exports = router
