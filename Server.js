@@ -44,12 +44,21 @@ app.use('/api/', employee)
 app.use('/api/', payment)
 app.use('/api/', task)
 
+console.log(process.env.NODE_ENV)
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist')));
-
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../Frontend/dialforneed/dist'), {
+        // Set headers to ensure correct MIME type for JavaScript files
+        setHeaders: (res, path) => {
+            if (path.endsWith('.js')) {
+                res.setHeader('Content-Type', 'application/javascript');
+            }
+        },
+    }));
+    
+    // Handle other routes or fallback to index.html for client-side routing
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../Frontend/dialforneed/dist', 'index.html'));
+        res.sendFile(path.join(__dirname, '../Frontend/dialforneed/dist/index.html'));
     });
 }
 
