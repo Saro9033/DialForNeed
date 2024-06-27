@@ -183,6 +183,8 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
         runValidators: true // Run validators on update
     });
 
+    await user.save()
+
     if (!user) {
         return res.status(404).json({
             success: false,

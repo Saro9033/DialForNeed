@@ -14,7 +14,7 @@ const sendEmail = async (options) => {
   // });
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Gmail',
     auth: {
       user: 'noreply.dialforneed@gmail.com', // Your Gmail address
       pass: process.env.APP_PASS // Your Gmail password or app password
