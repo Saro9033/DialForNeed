@@ -17,7 +17,7 @@ const sendEmail = async (options) => {
     service: 'gmail',
     auth: {
       user: 'noreply.dialforneed@gmail.com', // Your Gmail address
-      pass: 'dialforneed' // Your Gmail password or app password
+      pass: process.env.APP_PASS // Your Gmail password or app password
     }
   })
 
