@@ -12,7 +12,7 @@ exports.registerUser = catchAsyncError(async (req, res) => {
 
     let BASE_URL = process.env.STATIC_URL
     if(process.env.NODE_ENV === "production"){
-        BASE_URL = `${req.protocal}://${req.get('host')}/`
+        BASE_URL = `${req.protocol}://${req.get('host')}/`
     }
     
      const avatar = req.file ? `${BASE_URL}uploads/user/${req.file.originalname}` : null;
@@ -74,9 +74,9 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
     await user.save({ validateBeforeSave: false })
 
     let BASE_URL = process.env.FRONTEND_URL
-    if(process.env.NODE_ENV === "production"){
-        BASE_URL = `${req.protocal}://${req.get('host')}/`
-    }
+    // if(process.env.NODE_ENV === "production"){
+    //     BASE_URL = `${req.protocol}://${req.get('host')}/`
+    // }
 
     //Create reset URL
     const resetUrl = `${BASE_URL}password/reset/${resetToken}`
@@ -137,15 +137,12 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
 //Get User Profile - api/myprofile
 exports.getUserProfile = catchAsyncError(async (req, res, next) => {
-    if (!req.user) {
-        return next(new ErrorHandler("User not authenticated", 401));
-    }
 
     try {
         const user = await User.findById(req.user.id);
 
         if (!user) {
-            return next(new ErrorHandler("User not found", 404));
+            return next(new errorHandler("User not found", 404));
         }
 
         res.status(200).json({
@@ -153,7 +150,7 @@ exports.getUserProfile = catchAsyncError(async (req, res, next) => {
             user
         });
     } catch (error) {
-        return next(new ErrorHandler("Server error", 500));
+        return next(new errorHandler("Server error", 500));
     }
 });
 

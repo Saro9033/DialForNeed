@@ -56,7 +56,7 @@ exports.addProduct = catchAsyncError(async (req, res) => {
         req.files.forEach((file)=>{
             let BASE_URL = process.env.STATIC_URL
             if(process.env.NODE_ENV === "production"){
-                BASE_URL = `${req.protocal}://${req.get('host')}/`
+                BASE_URL = `${req.protocol}://${req.get('host')}/`
             }
             let url = `${BASE_URL}uploads/product/${file.originalname}`
             images.push({image:url})
@@ -124,7 +124,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     // If new images are provided, add them to the existing images
     let BASE_URL = process.env.STATIC_URL
     if(process.env.NODE_ENV === "production"){
-        BASE_URL = `${req.protocal}://${req.get('host')}/`
+        BASE_URL = `${req.protocol}://${req.get('host')}/`
     }
     if (req.files && req.files.length > 0) {
         images = [
