@@ -169,12 +169,12 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
 
     // Check if req.file exists to update avatar
     if (req.file) {
-        let BASE_URL = process.env.STATIC_URL;
+        let BASE_URL = process.env.STATIC_URL || '';
         if (process.env.NODE_ENV === "production") {
             BASE_URL = `${req.protocol}://${req.get('host')}/`;
         }
-        const avatarUrl = `${BASE_URL}uploads/user/${req.file.filename}`; // Use req.file.filename instead of originalname
-        newUserData = { ...newUserData, avatar: avatarUrl };
+        const avatarUrl = `${BASE_URL}uploads/user/${req.file.filename}`;
+        newUserData.avatar = avatarUrl; // Update avatar in newUserData
     }
 
     // Update user in the database
@@ -182,6 +182,13 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
         new: true, // Return the updated user object
         runValidators: true // Run validators on update
     });
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: 'User not found'
+        });
+    }
 
     res.status(200).json({
         success: true,
