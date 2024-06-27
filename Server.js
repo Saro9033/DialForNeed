@@ -17,8 +17,14 @@ const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
+
+const allowedOrigins = [
+    'https://dial-for-need-frontend.vercel.app',
+    'http://localhost:3000',
+    // Add more origins as needed
+  ]
 const corsOptions = {
-    origin: 'https://dial-for-need-frontend.vercel.app', // Replace with your frontend URL
+    origin: allowedOrigins, // Replace with your frontend URL
     credentials: true, // Allow cookies to be sent
 };
 

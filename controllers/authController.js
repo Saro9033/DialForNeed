@@ -137,14 +137,25 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
 //Get User Profile - api/myprofile
 exports.getUserProfile = catchAsyncError(async (req, res, next) => {
-  
-    const user = await User.findById(req.user.id)
+    if (!req.user) {
+        return next(new ErrorHandler("User not authenticated", 401));
+    }
 
-    res.status(200).json({
-        success: true,
-        user
-    })
-})
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Server error", 500));
+    }
+});
 
 
 //Update User Profile - api/update
