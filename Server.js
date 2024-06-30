@@ -9,6 +9,7 @@ const brand = require('./routes/brand')
 const employee = require('./routes/employee')
 const payment = require('./routes/payment')
 const task = require('./routes/task')
+const carousel = require('./routes/carousel')
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
@@ -18,14 +19,13 @@ require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
 
-// const allowedOrigins = [
-//     'https://dial-for-need-frontend.vercel.app',
-//     'http://localhost:3000',
-//     // Add more origins as needed
-//   ]
+let BASE_URL =`http://localhost:3000`
+if(process.env.NODE_ENV === "production"){
+    BASE_URL = process.env.FRONTEND_URL
+}
 
 const corsOptions = {
-    origin: 'https://dial-for-need-frontend.vercel.app', // Replace with your frontend URL
+    origin:BASE_URL, // Replace with your frontend URL
     credentials: true, // Allow cookies to be sent
 };
 
@@ -50,6 +50,7 @@ app.use('/api/', brand)
 app.use('/api/', employee)
 app.use('/api/', payment)
 app.use('/api/', task)
+app.use('/api/', carousel)
 
 console.log(process.env.NODE_ENV)
 

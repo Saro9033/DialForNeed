@@ -73,13 +73,13 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
     const resetToken = user.getResetToken()
     await user.save({ validateBeforeSave: false })
 
-    let BASE_URL = process.env.FRONTEND_URL
-    // if(process.env.NODE_ENV === "production"){
-    //     BASE_URL = `${req.protocol}://${req.get('host')}/`
-    // }
+    let BASE_URL =`http://localhost:${process.env.PORT}/`
+    if(process.env.NODE_ENV === "production"){
+        BASE_URL = process.env.FRONTEND_URL
+    }
 
     //Create reset URL
-    const resetUrl = `${BASE_URL}password/reset/${resetToken}`
+    const resetUrl = `${BASE_URL}/password/reset/${resetToken}`
 
     //Create email message
     const message = `Your password reset url is as follows \n\n

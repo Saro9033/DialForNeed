@@ -98,7 +98,7 @@ exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
 // Get logged user's orders - to show ordered items = api/myorders
 exports.myOrders = catchAsyncError(async (req, res, next) => {
     try{
-        const order = await Order.find({ user: req.user.id }).populate({
+        const order = await Order.find({ user: req.user?.id }).populate({
         path: 'orderItems',
         populate: {
             path: 'productId',
